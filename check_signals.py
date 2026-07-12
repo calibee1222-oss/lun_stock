@@ -40,9 +40,9 @@ TICKERS = [
 # 這裡用「當下的實際美東時間」再判斷一次，兩次觸發只會有一次真的落在窗口內。
 MARKET_SLOTS = [
     {"key": "tw_open", "tz": "Asia/Taipei", "hour": 9, "minute": 0, "label": "🇹🇼 台股開盤"},
-    {"key": "tw_close", "tz": "Asia/Taipei", "hour": 13, "minute": 30, "label": "🇹🇼 台股收盤"},
+    {"key": "tw_close", "tz": "Asia/Taipei", "hour": 13, "minute": 20, "label": "🇹🇼 台股收盤"},
     {"key": "us_open", "tz": "America/New_York", "hour": 9, "minute": 30, "label": "🇺🇸 美股開盤"},
-    {"key": "us_close", "tz": "America/New_York", "hour": 16, "minute": 0, "label": "🇺🇸 美股收盤"},
+    {"key": "us_close", "tz": "America/New_York", "hour": 15, "minute": 50, "label": "🇺🇸 美股收盤"},
 ]
 
 
@@ -252,7 +252,7 @@ def build_summary_line(ticker, rows):
 
     header = f"{meta['icon']} {ticker['label']}　現在 {fmt_price(price)}"
     detail = f"　3日{fmt_pct(chg3)}／5日{fmt_pct(chg5)}／{kd_text(state)}"
-    advice = f"　👉 操作建議：{meta['label']}"
+    advice = f"　❗❗❗ 操作建議：{meta['label']}"
     return header + "\n" + detail + "\n" + advice
 
 
