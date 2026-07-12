@@ -1,0 +1,47 @@
+name: 四大指數加碼監控
+
+on:
+  schedule:
+    # GitHub Actions 排程一律用 UTC 時間；台灣沒有日光節約時間所以固定，
+    # 美股有日光節約時間所以開盤/收盤各排兩個時間點，實際判斷交給 Python 腳本裡的時區邏輯，
+    # 兩個時間點只會有一個真的落在窗口內，不會收到重複通知。
+    - cron: '0 1 * * 1-5'    # 台股開盤 09:00（台北時間）
+    - cron: '30 5 * * 1-5'   # 台股收盤 13:30（台北時間）
+    - cron: '30 13 * * 1-5'  # 美股開盤 09:30（美東夏令 EDT）
+    - cron: '30 14 * * 1-5'  # 美股開盤 09:30（美東冬令 EST）
+    - cron: '0 20 * * 1-5'   # 美股收盤 16:00（美東夏令 EDT）
+    - cron: '0 21 * * 1-5'   # 美股收盤 16:00（美東冬令 EST）
+  workflow_dispatch:
+    inputs:
+      force_run:
+        description: '手動測試：不管現在是不是監控時間，強制跑一次並推播'
+        type: boolean
+        default: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run signal check
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          ALPHA_VANTAGE_KEY: ${{ secrets.ALPHA_VANTAGE_KEY }}
+          TH3: '3'
+          TH5: '5'
+          KD_BUY: '30'
+          KD_SELL: '70'
+          KD_OVERSOLD: '20'
+          KD_OVERBOUGHT: '80'
+          FORCE_RUN: ${{ github.event.inputs.force_run }}
+        run: python check_signals.py
