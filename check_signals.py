@@ -156,27 +156,70 @@ def tier_for(chg3, chg5):
     return 0
 
 
-def kd_suggestion(K, D):
+def kd_state(K, D):
+    """判斷 KD 目前是哪一種狀態（交叉/超買超賣/中性）"""
     idxs = [i for i in range(len(K)) if K[i] is not None]
     if len(idxs) < 2:
-        return "資料不足，無法判斷 KD"
+        return {"case": "insufficient", "k": None, "d": None}
     i0, i1 = idxs[-2], idxs[-1]
     k0, d0, k1, d1 = K[i0], D[i0], K[i1], D[i1]
     golden = k0 <= d0 and k1 > d1
     dead = k0 >= d0 and k1 < d1
     if golden and k1 < KD_BUY:
-        return f"🟢 KD低檔黃金交叉(K{k1:.1f}/D{d1:.1f})，進場訊號"
-    if dead and k1 > KD_SELL:
-        return f"🔴 KD高檔死亡交叉(K{k1:.1f}/D{d1:.1f})，減碼風險"
-    if golden:
-        return f"🙂 黃金交叉但非低檔(K{k1:.1f})，訊號較弱"
-    if dead:
-        return f"🙂 死亡交叉但非高檔(K{k1:.1f})，訊號較弱"
-    if k1 < KD_OVERSOLD:
-        return f"👀 超賣區(K={k1:.1f})"
-    if k1 > KD_OVERBOUGHT:
-        return f"⚠️ 超買區(K={k1:.1f})"
-    return f"🙂 中性(K={k1:.1f}/D={d1:.1f})"
+        case = "golden_low"
+    elif dead and k1 > KD_SELL:
+        case = "dead_high"
+    elif golden:
+        case = "golden_weak"
+    elif dead:
+        case = "dead_weak"
+    elif k1 < KD_OVERSOLD:
+        case = "oversold"
+    elif k1 > KD_OVERBOUGHT:
+        case = "overbought"
+    else:
+        case = "neutral"
+    return {"case": case, "k": k1, "d": d1}
+
+
+KD_CASE_TEXT = {
+    "insufficient": "資料不足，無法判斷 KD",
+    "golden_low": "KD低檔黃金交叉",
+    "dead_high": "KD高檔死亡交叉",
+    "golden_weak": "黃金交叉但非低檔，訊號較弱",
+    "dead_weak": "死亡交叉但非高檔，訊號較弱",
+    "oversold": "KD超賣區",
+    "overbought": "KD超買區",
+    "neutral": "KD中性",
+}
+
+
+def kd_text(state):
+    base = KD_CASE_TEXT[state["case"]]
+    if state["k"] is None:
+        return base
+    if state["d"] is not None:
+        return f"{base}(K{state['k']:.1f}/D{state['d']:.1f})"
+    return f"{base}(K{state['k']:.1f})"
+
+
+# ---------- 統一燈號：把「3日/5日累計跌幅」跟「KD」合併成單一操作建議 ----------
+SIGNAL_META = {
+    "buy": {"icon": "🟢", "label": "加碼機會"},
+    "watch": {"icon": "🟡", "label": "觀望"},
+    "reduce": {"icon": "🔴", "label": "建議減碼／留意風險"},
+}
+
+
+def combined_signal(tier, kd_case):
+    # 5日累計大跌，或 KD 低檔黃金交叉 → 視為加碼機會
+    if tier == 2 or kd_case == "golden_low":
+        return "buy"
+    # KD 高檔死亡交叉，或 KD 超買 → 建議減碼／留意風險
+    if kd_case in ("dead_high", "overbought"):
+        return "reduce"
+    # 其餘（含3日小跌、KD超賣但未交叉等）→ 觀望
+    return "watch"
 
 
 def fmt_pct(v):
@@ -186,17 +229,31 @@ def fmt_pct(v):
     return f"{sign}{v:.2f}%"
 
 
+def fmt_price(v):
+    if v is None:
+        return "—"
+    return f"{v:,.2f}"
+
+
 def build_summary_line(ticker, rows):
     closes = [r["close"] for r in rows]
+    price = closes[-1]
     chg3 = pct_change(closes, 3)
     chg5 = pct_change(closes, 5)
     tier = tier_for(chg3, chg5)
-    icon = "🔴" if tier == 2 else "🟡" if tier == 1 else "🟢"
-    kd_text = ""
+
+    state = {"case": "insufficient", "k": None, "d": None}
     if len(rows) >= 10:
         K, D = compute_kd(rows, 9)
-        kd_text = " ｜ " + kd_suggestion(K, D)
-    return f"{icon} {ticker['label']}：3日{fmt_pct(chg3)}／5日{fmt_pct(chg5)}{kd_text}"
+        state = kd_state(K, D)
+
+    signal = combined_signal(tier, state["case"])
+    meta = SIGNAL_META[signal]
+
+    header = f"{meta['icon']} {ticker['label']}　現在 {fmt_price(price)}"
+    detail = f"　3日{fmt_pct(chg3)}／5日{fmt_pct(chg5)}／{kd_text(state)}"
+    advice = f"　👉 操作建議：{meta['label']}"
+    return header + "\n" + detail + "\n" + advice
 
 
 def send_ntfy(title, body):
@@ -242,7 +299,7 @@ def main():
         return
     label = slot["label"] if slot else "🧪 手動測試"
 
-    lines = []
+    lines = ["📟 燈號：🟢加碼機會　🟡觀望　🔴建議減碼／留意風險"]
     for ticker in TICKERS:
         rows = get_history(ticker)
         if len(rows) < 10:
@@ -250,7 +307,7 @@ def main():
             continue
         lines.append(build_summary_line(ticker, rows))
 
-    body = "\n".join(lines)
+    body = "\n\n".join(lines)
     print(body)
     send_ntfy(f"{label} ・ 監控結果", body)
 
