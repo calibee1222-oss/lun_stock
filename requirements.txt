@@ -1,1 +1,2 @@
- requests，Commit changes
+yfinance
+pandas
