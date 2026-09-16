@@ -1,0 +1,31 @@
+name: Stock Monitor Alert
+
+on:
+  schedule:
+    # 台灣 13:00 (UTC 05:00)
+    - cron: '0 5 * * 1-5'
+    # 台灣 21:00 (UTC 13:00)
+    - cron: '0 13 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  check-market:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 下載專案程式碼
+        uses: actions/checkout@v4
+
+      - name: 設定 Python 環境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝相依套件
+        run: pip install -r requirements.txt
+
+      - name: 執行監控與分析
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+        run: python main.py
