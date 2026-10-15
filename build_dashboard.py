@@ -36,6 +36,8 @@ T = {
     "drawdown": {"green": -10, "big": -20, "huge": -30, "red": -5},
     # 年線(240MA)乖離（%）：低於年線綠燈，過熱紅燈
     "bias240": {"green": 0, "red": 15},
+    # 個別指數覆寫：費半波動約大盤兩倍，年線乖離放寬到 30% 才算過熱
+    "bias240_by_index": {"sox": {"green": 0, "red": 30}},
     "rsi": {"green": 30, "red": 70},
     "k": {"green": 20, "red": 80},
     "vix": {"green": 25, "red": 15},             # ≥25 恐慌=綠；<15 過度樂觀=紅
@@ -105,6 +107,7 @@ def analyze_index(key, name, ticker, market):
     rsi_v = float(rsi(c).iloc[-1])
     k, d = kd(df)
 
+    bt = T["bias240_by_index"].get(key, T["bias240"])
     t = T["drawdown"]
     if dd <= t["huge"]:
         dd_note = "大幅加碼區"
@@ -122,7 +125,7 @@ def analyze_index(key, name, ticker, market):
          "light": light(dd, t["green"], t["red"]), "note": dd_note,
          "detail": f"近 3 年高點 {peak:,.2f}"},
         {"id": "bias240", "label": "年線乖離", "value": r(bias, 1), "unit": "%",
-         "light": light(bias, T["bias240"]["green"], T["bias240"]["red"]),
+         "light": light(bias, bt["green"], bt["red"]),
          "detail": f"240MA {ma240:,.2f}" if not math.isnan(ma240) else "資料不足"},
         {"id": "rsi", "label": "RSI(14)", "value": r(rsi_v, 1), "unit": "",
          "light": light(rsi_v, T["rsi"]["green"], T["rsi"]["red"]), "detail": "短線參考"},
