@@ -1,0 +1,143 @@
+<title>加碼燈號台</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 總覽燈號列 → 總經燈號格 → 各指數卡片（指標燈 + 半年走勢） */
+:root{
+  --bg:#f3f5f6; --panel:#ffffff; --fg:#17202a; --muted:#5b6774; --line:#dde3e8; --accent:#1f5f8b;
+  --go:#18a058; --go-bg:#e3f5ea; --hold:#d39b0b; --hold-bg:#fbf1d6; --stop:#d64545; --stop-bg:#fbe4e4; --na:#9aa5b1;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1418; --panel:#171e24; --fg:#e6ebef; --muted:#93a0ad; --line:#26313a; --accent:#6fb3e0;
+  --go:#3ccf7f; --go-bg:#143222; --hold:#f0bd3a; --hold-bg:#33290f; --stop:#f06a6a; --stop-bg:#3a1a1a; --na:#5d6873; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1418; --panel:#171e24; --fg:#e6ebef; --muted:#93a0ad; --line:#26313a; --accent:#6fb3e0;
+  --go:#3ccf7f; --go-bg:#143222; --hold:#f0bd3a; --hold-bg:#33290f; --stop:#f06a6a; --stop-bg:#3a1a1a; --na:#5d6873; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px 16px}
+h1{font-size:1.6rem;font-weight:900;margin:0;letter-spacing:.02em}
+h2{font-size:1rem;margin:0 0 12px;font-weight:700;color:var(--muted);letter-spacing:.08em}
+.meta{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--na)}
+.dot.green{background:var(--go);box-shadow:0 0 0 3px var(--go-bg)}
+.dot.yellow{background:var(--hold);box-shadow:0 0 0 3px var(--hold-bg)}
+.dot.red{background:var(--stop);box-shadow:0 0 0 3px var(--stop-bg)}
+.banner{background:var(--hold-bg);border:1px solid var(--hold);border-radius:8px;padding:10px 14px;font-size:.88rem}
+/* 總覽 */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.sum{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;border-top:5px solid var(--na);text-decoration:none;color:inherit}
+.sum.green{border-top-color:var(--go)} .sum.yellow{border-top-color:var(--hold)} .sum.red{border-top-color:var(--stop)}
+.sum:hover,.sum:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sum .n{font-weight:700} .sum .v{font-size:1.05rem;font-weight:900}
+.sum.green .v{color:var(--go)} .sum.yellow .v{color:var(--hold)} .sum.red .v{color:var(--stop)}
+.sum .s{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+/* 總經 */
+.macro{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.m{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center}
+.m .dot{grid-row:span 2}
+.m .l{font-weight:500}
+.m .val{font-family:var(--mono);font-weight:600;font-size:1.05rem;text-align:right;font-variant-numeric:tabular-nums}
+.m .d{grid-column:2/4;font-size:.78rem;color:var(--muted);min-width:0}
+.m .src{grid-column:2/4;font-size:.7rem;color:var(--na)}
+.scope{font-size:.7rem;padding:1px 6px;border:1px solid var(--line);border-radius:99px;color:var(--muted);margin-left:6px;font-weight:400}
+/* 指數卡 */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px;min-width:0;scroll-margin-top:16px}
+.ch{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.ch .n{font-weight:900;font-size:1.1rem}
+.ch .t{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.px{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.px b{font-size:1.25rem;display:block}
+.up{color:var(--stop)} .down{color:var(--go)} /* 台股慣例：紅漲綠跌 */
+.verdict{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;font-weight:700;background:var(--bg)}
+.verdict.green{background:var(--go-bg);color:var(--go)} .verdict.yellow{background:var(--hold-bg);color:var(--hold)} .verdict.red{background:var(--stop-bg);color:var(--stop)}
+.verdict small{margin-left:auto;font-family:var(--mono);font-weight:400;color:var(--muted)}
+.items{display:grid;gap:0}
+.it{display:grid;grid-template-columns:auto 1fr auto;gap:0 10px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}
+.it .l{font-size:.9rem} .it .l em{font-style:normal;font-size:.75rem;color:var(--muted);margin-left:6px}
+.it .val{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600}
+.it .d{grid-column:2/4;font-size:.74rem;color:var(--muted)}
+.it.macro-ref .l{color:var(--muted)}
+svg.spark{width:100%;height:56px;display:block}
+.err{color:var(--stop);font-size:.9rem}
+footer{font-size:.78rem;color:var(--muted);display:grid;gap:4px}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>加碼燈號台</h1>
+      <div class="meta" id="updated">讀取資料中…</div>
+    </div>
+    <div class="legend">
+      <span><i class="dot green"></i>建議加碼</span>
+      <span><i class="dot yellow"></i>正常定期定額</span>
+      <span><i class="dot red"></i>不加碼・定期定額照扣</span>
+    </div>
+  </header>
+  <div class="banner" id="banner" hidden></div>
+
+  <section><h2>一眼總覽</h2><div class="summary" id="summary"></div></section>
+  <section><h2>市場溫度（總經）</h2><div class="macro" id="macro"></div></section>
+  <section><h2>各指數明細</h2><div class="cards" id="cards"></div></section>
+
+  <footer>
+    <div>綜合判斷：每顆綠燈 +1、紅燈 −1，總分 ≥ +3 建議加碼，≤ −3 暫停加碼。RSI、KD 屬短線指標，僅供參考。</div>
+    <div>紅燈不是賣出訊號。本頁為個人投資紀律工具，不構成投資建議。</div>
+  </footer>
+</div>
+
+<script>
+const MACRO_SCOPE={ndc:"台股",tw_pe:"台股",us_pe:"美股",us10y:"美股",usdtwd:"美股",vix:"全球"};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const num=(v,u="")=>v==null?"—":(typeof v==="number"?v.toLocaleString("zh-TW",{maximumFractionDigits:2}):v)+u;
+
+function spark(arr,lt){
+  const v=(arr||[]).filter(x=>x!=null); if(v.length<2) return "";
+  const W=300,H=56,p=4,mn=Math.min(...v),mx=Math.max(...v),sx=(W-2*p)/(v.length-1),sy=mx===mn?0:(H-2*p)/(mx-mn);
+  const pts=v.map((y,i)=>[p+i*sx,H-p-(y-mn)*sy]);
+  const d=pts.map((q,i)=>(i?"L":"M")+q[0].toFixed(1)+" "+q[1].toFixed(1)).join("");
+  const col=lt==="green"?"var(--go)":lt==="red"?"var(--stop)":lt==="yellow"?"var(--hold)":"var(--accent)";
+  const last=pts[pts.length-1];
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="近半年走勢">
+    <path d="${d}L${last[0]} ${H}L${p} ${H}Z" fill="${col}" fill-opacity=".1"/>
+    <path d="${d}" fill="none" stroke="${col}" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+    <circle cx="${last[0]}" cy="${last[1]}" r="3" fill="${col}"/></svg>`;
+}
+
+function render(data){
+  document.getElementById("updated").textContent=`更新：${data.updated}（台北時間）`;
+  if(data.sample){const b=document.getElementById("banner");b.hidden=false;b.textContent="這是示意資料，數字不是真實行情。部署到 GitHub Pages 後會顯示每天自動更新的實際數據。";}
+  const M=data.macro||{};
+  document.getElementById("summary").innerHTML=data.indices.map(i=>i.error
+    ?`<a class="sum" href="#${i.key}"><span class="n">${esc(i.name)}</span><span class="err">資料抓取失敗</span></a>`
+    :`<a class="sum ${i.light}" href="#${i.key}"><span class="n">${esc(i.name)}</span><span class="v">${esc(i.verdict)}</span><span class="s">總分 ${i.score>0?"+":""}${i.score}・${num(i.price)}</span></a>`).join("");
+  document.getElementById("macro").innerHTML=Object.values(M).map(m=>`
+    <div class="m"><i class="dot ${m.light}"></i>
+      <span class="l">${esc(m.label)}<span class="scope">${MACRO_SCOPE[m.id]||""}</span></span>
+      <span class="val">${num(m.value)}${m.value!=null?esc(m.unit):""}${m.note?" "+esc(m.note):""}</span>
+      <span class="d">${esc(m.detail)}</span>${m.source?`<span class="src">來源：${esc(m.source)}</span>`:""}
+    </div>`).join("");
+  document.getElementById("cards").innerHTML=data.indices.map(i=>{
+    if(i.error) return `<article class="card" id="${i.key}"><div class="ch"><div><div class="n">${esc(i.name)}</div><div class="t">${esc(i.ticker)}</div></div></div><div class="err">${esc(i.error)}</div></article>`;
+    const cls=i.change>0?"up":i.change<0?"down":"";
+    const own=i.items.map(t=>`<div class="it"><i class="dot ${t.light}"></i><span class="l">${esc(t.label)}${t.note?`<em>${esc(t.note)}</em>`:""}</span><span class="val">${num(t.value,t.unit)}</span><span class="d">${esc(t.detail)}</span></div>`).join("");
+    const ref=(i.macro||[]).map(k=>M[k]).filter(Boolean).map(t=>`<div class="it macro-ref"><i class="dot ${t.light}"></i><span class="l">${esc(t.label)}<em>總經</em></span><span class="val">${num(t.value)}${t.value!=null?esc(t.unit):""}</span></div>`).join("");
+    return `<article class="card" id="${i.key}">
+      <div class="ch"><div><div class="n">${esc(i.name)}</div><div class="t">${esc(i.ticker)}・${esc(i.date)}</div></div>
+        <div class="px"><b>${num(i.price)}</b><span class="${cls}">${i.change>0?"+":""}${num(i.change,"%")}</span></div></div>
+      ${spark(i.spark,i.light)}
+      <div class="verdict ${i.light}"><i class="dot ${i.light}"></i>${esc(i.verdict)}<small>總分 ${i.score>0?"+":""}${i.score}</small></div>
+      <div class="items">${own}${ref}</div>
+    </article>`;}).join("");
+}
+
+fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(render)
+  .catch(()=>{document.getElementById("updated").textContent="找不到 data.json：請確認 GitHub Actions 已經跑過一次。";});
+</script>

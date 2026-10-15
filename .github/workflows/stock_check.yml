@@ -8,6 +8,9 @@ on:
     - cron: '0 13 * * 1-5'
   workflow_dispatch:
 
+permissions:
+  contents: write   # 允許把儀表板資料 docs/data.json 存回 repo
+
 jobs:
   check-market:
     runs-on: ubuntu-latest
@@ -29,3 +32,13 @@ jobs:
           GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
           RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
         run: python main.py
+
+      - name: 更新儀表板資料
+        if: always()
+        run: |
+          [ -f docs/data.json ] || exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json
+          git diff --cached --quiet || git commit -m "更新儀表板資料 $(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')"
+          git pull --rebase --autostash && git push

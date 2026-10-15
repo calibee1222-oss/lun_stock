@@ -5,6 +5,8 @@ from email.mime.text import MIMEText
 import pandas as pd
 import yfinance as yf
 
+import build_dashboard
+
 TICKERS = {
     "台股大盤": "^TWII",
     "0050 ETF": "0050.TW",
@@ -26,6 +28,9 @@ def analyze_ticker(symbol):
         # 扁平化多層欄位 (避免新版 yfinance MultiIndex 問題)
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
+
+        # 修正 0050 = nan：盤中當天那一列常是空值，丟掉只留有效收盤
+        df = df.dropna(subset=["Close"])
 
         # 確保為 1D 浮點數 Series
         close = df["Close"].squeeze().astype(float)
@@ -92,30 +97,64 @@ def analyze_ticker(symbol):
         return None
 
 
+DASHBOARD_URL = "https://calibee1222-oss.github.io/lun_stock/"
+EMOJI = {"green": "🟢", "yellow": "🟡", "red": "🔴", "na": "⚪"}
+
+
 def main():
+    # 1. 產生儀表板資料（docs/data.json），同時拿來寫信
+    try:
+        dash = build_dashboard.build()
+    except Exception as e:
+        print(f"儀表板資料產生失敗: {e}")
+        dash = {"indices": [], "macro": {}}
+    by_ticker = {i["ticker"]: i for i in dash["indices"]}
+
     report = []
     any_touch = False
+    greens = []
 
     for name, sym in TICKERS.items():
         res = analyze_ticker(sym)
-        if not res:
+        idx = by_ticker.get(sym, {})
+        if not res and not idx.get("items"):
             report.append(f"【{name}】資料獲取失敗\n")
             continue
 
-        touch_str = (
-            "⚠️ 觸碰: " + ", ".join(res["touched"]) if res["touched"] else "未觸碰"
-        )
-        if res["touched"]:
-            any_touch = True
+        if idx.get("light"):
+            status = f"{EMOJI[idx['light']]}【{name}】{idx['verdict']}（總分 {idx['score']:+d}）\n"
+            if idx["light"] == "green":
+                greens.append(name)
+        else:
+            status = f"⚪【{name}】\n"
 
-        status = f"【{name}】價格: {res['price']:.2f}\n"
-        status += f"  - 均線狀態: {touch_str}\n"
-        status += (
-            f"  - RSI: {res['rsi']:.1f} | K: {res['k']:.1f} | D: {res['d']:.1f}\n"
-        )
-        status += f"  - 操作建議: {res['advice']}\n"
+        if res:
+            status += f"  - 價格: {res['price']:.2f}\n"
+        for it in idx.get("items", []):
+            if it["id"] in ("drawdown", "bias240"):
+                v = "—" if it["value"] is None else f"{it['value']:+.1f}%"
+                status += f"  - {EMOJI[it['light']]} {it['label']}: {v}\n"
+        if res:
+            touch_str = (
+                "⚠️ 觸碰: " + ", ".join(res["touched"]) if res["touched"] else "未觸碰"
+            )
+            if res["touched"]:
+                any_touch = True
+            status += f"  - 均線狀態: {touch_str}\n"
+            status += (
+                f"  - RSI: {res['rsi']:.1f} | K: {res['k']:.1f} | D: {res['d']:.1f}（短線參考）\n"
+            )
         report.append(status)
 
+    macro_lines = []
+    for m in dash.get("macro", {}).values():
+        v = "—" if m["value"] is None else f"{m['value']}{m.get('unit', '')}"
+        note = f" {m['note']}" if m.get("note") else ""
+        macro_lines.append(f"  {EMOJI[m['light']]} {m['label']}: {v}{note}")
+    if macro_lines:
+        report.append("【市場溫度】\n" + "\n".join(macro_lines) + "\n")
+
+    report.append(f"完整儀表板：{DASHBOARD_URL}\n🟢 建議加碼　🟡 正常定期定額　🔴 不加碼（定期定額照扣）")
     content = "\n".join(report)
     print(content)
 
@@ -128,11 +167,12 @@ def main():
         print("缺少 Gmail 機密環境變數，略過發信。")
         return
 
-    subject = (
-        "【股市均線警報⚠️】觸碰重要均線提醒！"
-        if any_touch
-        else "【股市例行報表】指數投資監控日報"
-    )
+    if greens:
+        subject = f"【🟢加碼訊號】{'、'.join(greens)}"
+    elif any_touch:
+        subject = "【股市均線警報⚠️】觸碰重要均線提醒！"
+    else:
+        subject = "【股市例行報表】指數投資監控日報"
 
     msg = MIMEMultipart()
     msg["From"] = user
