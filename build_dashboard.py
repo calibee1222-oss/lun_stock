@@ -48,7 +48,7 @@ T = {
 }
 
 # 景氣燈號：自動抓失敗時用這個（國發會每月 27 日左右公布，手動更新即可）
-MANUAL_NDC = {"month": "", "score": None}
+MANUAL_NDC = {"month": "2026-08", "score": 41}  # 2026/9/29 公布：紅燈 41 分
 
 # 各市場要參考的總經指標
 MACRO_FOR = {"TW": ["ndc", "tw_pe", "vix"], "US": ["us_pe", "us10y", "vix", "usdtwd"]}
