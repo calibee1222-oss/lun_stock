@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15 13:57",
+ "updated": "2026-10-15 14:03",
  "thresholds": {
   "drawdown": {
    "green": -10,
@@ -10,6 +10,12 @@
   "bias240": {
    "green": 0,
    "red": 15
+  },
+  "bias240_by_index": {
+   "sox": {
+    "green": 0,
+    "red": 30
+   }
   },
   "rsi": {
    "green": 30,
@@ -48,12 +54,12 @@
   "ndc": {
    "id": "ndc",
    "label": "景氣對策信號",
-   "value": null,
+   "value": 41,
    "unit": "分",
-   "light": "na",
-   "note": "—",
-   "detail": " —・藍/黃藍燈加碼，紅燈不追",
-   "source": "抓取失敗，請在 MANUAL_NDC 手動填入"
+   "light": "red",
+   "note": "紅燈",
+   "detail": "2026-08 紅燈・藍/黃藍燈加碼，紅燈不追",
+   "source": "手動輸入（MANUAL_NDC）"
   },
   "tw_pe": {
    "id": "tw_pe",
@@ -94,7 +100,7 @@
   "usdtwd": {
    "id": "usdtwd",
    "label": "美元/台幣",
-   "value": 32.367,
+   "value": 32.359,
    "unit": "",
    "light": "red",
    "detail": "一年均價 31.60（+2.4%）・台幣強時買美股較划算",
@@ -272,7 +278,7 @@
     "tw_pe",
     "vix"
    ],
-   "score": -1,
+   "score": -2,
    "light": "yellow",
    "verdict": "正常定期定額"
   },
@@ -446,7 +452,7 @@
     "tw_pe",
     "vix"
    ],
-   "score": -1,
+   "score": -2,
    "light": "yellow",
    "verdict": "正常定期定額"
   },
@@ -473,7 +479,7 @@
      "label": "年線乖離",
      "value": 17.2,
      "unit": "%",
-     "light": "red",
+     "light": "yellow",
      "detail": "240MA 9,965.93"
     },
     {
@@ -621,9 +627,9 @@
     "vix",
     "usdtwd"
    ],
-   "score": -3,
-   "light": "red",
-   "verdict": "暫停加碼・定期定額照扣"
+   "score": -2,
+   "light": "yellow",
+   "verdict": "正常定期定額"
   },
   {
    "key": "ndx",
