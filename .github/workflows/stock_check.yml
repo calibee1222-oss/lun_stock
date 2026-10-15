@@ -2,9 +2,9 @@ name: Stock Monitor Alert
 
 on:
   schedule:
-    # 台灣 13:00 (UTC 05:00)
-    - cron: '0 5 * * 1-5'
-    # 台灣 21:00 (UTC 13:00)
+    # 台灣 12:45 (UTC 04:45)：台股 13:30 收盤前，預留 GitHub 排程延遲
+    - cron: '45 4 * * 1-5'
+    # 台灣 21:00 (UTC 13:00)：美股開盤前，用前一晚收盤價判斷
     - cron: '0 13 * * 1-5'
   workflow_dispatch:
 
