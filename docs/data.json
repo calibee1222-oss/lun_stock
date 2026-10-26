@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-24 01:48",
+ "updated": "2026-10-26 18:30",
  "thresholds": {
   "drawdown": {
    "green": -10,
@@ -73,7 +73,7 @@
   "us_pe": {
    "id": "us_pe",
    "label": "S&P 500 本益比",
-   "value": 26.1,
+   "value": 26.0,
    "unit": "倍",
    "light": "red",
    "detail": "<18 便宜；>25 偏貴",
@@ -82,7 +82,7 @@
   "vix": {
    "id": "vix",
    "label": "VIX 恐慌指數",
-   "value": 20.2,
+   "value": 19.3,
    "unit": "",
    "light": "yellow",
    "detail": "≥25 恐慌加碼；<15 市場過度樂觀",
@@ -100,10 +100,10 @@
   "usdtwd": {
    "id": "usdtwd",
    "label": "美元/台幣",
-   "value": 32.576,
+   "value": 32.584,
    "unit": "",
    "light": "red",
-   "detail": "一年均價 31.64（+2.9%）・台幣強時買美股較划算",
+   "detail": "一年均價 31.66（+2.9%）・台幣強時買美股較划算",
    "source": "Yahoo Finance TWD=X"
   }
  },
@@ -288,8 +288,8 @@
    "ticker": "0050.TW",
    "market": "TW",
    "price": 106.9,
-   "date": "2026-10-22",
-   "change": -1.16,
+   "date": "2026-10-23",
+   "change": 0.0,
    "items": [
     {
      "id": "drawdown",
@@ -303,10 +303,10 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": 22.2,
+     "value": 21.9,
      "unit": "%",
      "light": "red",
-     "detail": "240MA 87.48"
+     "detail": "240MA 87.67"
     },
     {
      "id": "rsi",
@@ -319,14 +319,13 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 9.5,
+     "value": 7.1,
      "unit": "",
      "light": "green",
-     "detail": "K 9.5 / D 18.8・短線參考"
+     "detail": "K 7.1 / D 14.9・短線參考"
     }
    ],
    "spark": [
-    89.95,
     94.03,
     94.03,
     95.17,
@@ -445,6 +444,7 @@
     108.15,
     107.25,
     108.15,
+    106.9,
     106.9
    ],
    "macro": [
@@ -461,14 +461,14 @@
    "name": "費半 SOX",
    "ticker": "^SOX",
    "market": "US",
-   "price": 10824.94,
+   "price": 10779.46,
    "date": "2026-10-23",
-   "change": 0.87,
+   "change": 0.44,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -26.0,
+     "value": -26.3,
      "unit": "%",
      "light": "green",
      "note": "中度加碼區",
@@ -477,15 +477,15 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": 7.3,
+     "value": 6.9,
      "unit": "%",
      "light": "yellow",
-     "detail": "240MA 10,084.80"
+     "detail": "240MA 10,084.61"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 33.2,
+     "value": 32.3,
      "unit": "",
      "light": "yellow",
      "detail": "短線參考"
@@ -493,10 +493,10 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 11.7,
+     "value": 10.7,
      "unit": "",
      "light": "green",
-     "detail": "K 11.7 / D 14.6・短線參考"
+     "detail": "K 10.7 / D 14.3・短線參考"
     }
    ],
    "spark": [
@@ -619,7 +619,7 @@
     11283.81,
     11505.56,
     10731.98,
-    10824.94
+    10779.46
    ],
    "macro": [
     "us_pe",
@@ -636,14 +636,14 @@
    "name": "那斯達克100",
    "ticker": "^NDX",
    "market": "US",
-   "price": 29026.86,
+   "price": 28957.53,
    "date": "2026-10-23",
-   "change": 0.24,
+   "change": -0.0,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -7.0,
+     "value": -7.3,
      "unit": "%",
      "light": "yellow",
      "note": "小回檔",
@@ -652,15 +652,15 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": 5.9,
+     "value": 5.7,
      "unit": "%",
      "light": "yellow",
-     "detail": "240MA 27,409.07"
+     "detail": "240MA 27,408.78"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 37.8,
+     "value": 36.7,
      "unit": "",
      "light": "yellow",
      "detail": "短線參考"
@@ -668,10 +668,10 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 17.3,
+     "value": 16.0,
      "unit": "",
      "light": "green",
-     "detail": "K 17.3 / D 23.0・短線參考"
+     "detail": "K 16.0 / D 22.5・短線參考"
     }
    ],
    "spark": [
@@ -794,7 +794,7 @@
     29490.28,
     29822.52,
     28958.69,
-    29026.86
+    28957.53
    ],
    "macro": [
     "us_pe",
@@ -811,14 +811,14 @@
    "name": "標普 SPY",
    "ticker": "SPY",
    "market": "US",
-   "price": 760.99,
+   "price": 759.97,
    "date": "2026-10-23",
-   "change": -0.39,
+   "change": -0.52,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -2.3,
+     "value": -2.5,
      "unit": "%",
      "light": "red",
      "note": "接近高點",
@@ -827,7 +827,7 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": 6.4,
+     "value": 6.2,
      "unit": "%",
      "light": "yellow",
      "detail": "240MA 715.52"
@@ -835,7 +835,7 @@
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 43.1,
+     "value": 42.3,
      "unit": "",
      "light": "yellow",
      "detail": "短線參考"
@@ -843,10 +843,10 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 29.4,
+     "value": 27.7,
      "unit": "",
      "light": "yellow",
-     "detail": "K 29.4 / D 39.5・短線參考"
+     "detail": "K 27.7 / D 38.9・短線參考"
     }
    ],
    "spark": [
@@ -969,7 +969,7 @@
     769.05,
     773.09,
     763.96,
-    760.99
+    759.97
    ],
    "macro": [
     "us_pe",
