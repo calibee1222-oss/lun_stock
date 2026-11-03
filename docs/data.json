@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03 06:15",
+ "updated": "2026-11-03 20:20",
  "thresholds": {
   "drawdown": {
    "green": -10,
@@ -82,7 +82,7 @@
   "vix": {
    "id": "vix",
    "label": "VIX 恐慌指數",
-   "value": 21.1,
+   "value": 21.6,
    "unit": "",
    "light": "yellow",
    "detail": "≥25 恐慌加碼；<15 市場過度樂觀",
@@ -100,10 +100,10 @@
   "usdtwd": {
    "id": "usdtwd",
    "label": "美元/台幣",
-   "value": 32.588,
+   "value": 32.812,
    "unit": "",
    "light": "red",
-   "detail": "一年均價 31.69（+2.8%）・台幣強時買美股較划算",
+   "detail": "一年均價 31.69（+3.5%）・台幣強時買美股較划算",
    "source": "Yahoo Finance TWD=X"
   }
  },
@@ -113,47 +113,45 @@
    "name": "台股大盤",
    "ticker": "^TWII",
    "market": "TW",
-   "price": 45211.83,
-   "date": "2026-10-30",
-   "change": -2.49,
+   "price": 43307.54,
+   "date": "2026-11-03",
+   "change": -3.59,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -9.3,
+     "value": -13.1,
      "unit": "%",
-     "light": "yellow",
-     "note": "小回檔",
+     "light": "green",
+     "note": "小幅加碼區",
      "detail": "近 3 年高點 49,822.55"
     },
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": 17.3,
+     "value": 12.0,
      "unit": "%",
-     "light": "red",
-     "detail": "240MA 38,531.69"
+     "light": "yellow",
+     "detail": "240MA 38,664.09"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 37.2,
+     "value": 29.1,
      "unit": "",
-     "light": "yellow",
+     "light": "green",
      "detail": "短線參考"
     },
     {
      "id": "kd",
      "label": "KD",
-     "value": 21.0,
+     "value": 14.2,
      "unit": "",
-     "light": "yellow",
-     "detail": "K 21.0 / D 21.0・短線參考"
+     "light": "green",
+     "detail": "K 14.2 / D 18.5・短線參考"
     }
    ],
    "spark": [
-    41933.78,
-    41603.94,
     41790.06,
     41898.32,
     41374.5,
@@ -271,14 +269,16 @@
     46096.23,
     47035.58,
     46368.33,
-    45211.83
+    45211.83,
+    44920.14,
+    43307.54
    ],
    "macro": [
     "ndc",
     "tw_pe",
     "vix"
    ],
-   "score": -2,
+   "score": 2,
    "light": "yellow",
    "verdict": "正常定期定額"
   },
@@ -287,14 +287,14 @@
    "name": "0050 ETF",
    "ticker": "0050.TW",
    "market": "TW",
-   "price": 104.1,
-   "date": "2026-11-02",
-   "change": -0.81,
+   "price": 100.6,
+   "date": "2026-11-03",
+   "change": -3.36,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -10.6,
+     "value": -13.6,
      "unit": "%",
      "light": "green",
      "note": "小幅加碼區",
@@ -303,30 +303,29 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": 17.5,
+     "value": 13.4,
      "unit": "%",
-     "light": "red",
-     "detail": "240MA 88.57"
+     "light": "yellow",
+     "detail": "240MA 88.73"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 34.3,
+     "value": 27.7,
      "unit": "",
-     "light": "yellow",
+     "light": "green",
      "detail": "短線參考"
     },
     {
      "id": "kd",
      "label": "KD",
-     "value": 23.8,
+     "value": 16.3,
      "unit": "",
-     "light": "yellow",
-     "detail": "K 23.8 / D 23.7・短線參考"
+     "light": "green",
+     "detail": "K 16.3 / D 21.2・短線參考"
     }
    ],
    "spark": [
-    96.31,
     96.26,
     94.92,
     95.47,
@@ -445,14 +444,15 @@
     108.65,
     107.25,
     104.95,
-    104.1
+    104.1,
+    100.6
    ],
    "macro": [
     "ndc",
     "tw_pe",
     "vix"
    ],
-   "score": -1,
+   "score": 2,
    "light": "yellow",
    "verdict": "正常定期定額"
   },
@@ -830,7 +830,7 @@
      "value": 4.8,
      "unit": "%",
      "light": "yellow",
-     "detail": "240MA 717.90"
+     "detail": "240MA 717.89"
     },
     {
      "id": "rsi",
