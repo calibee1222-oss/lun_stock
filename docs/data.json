@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25 06:57",
+ "updated": "2026-11-25 22:55",
  "thresholds": {
   "drawdown": {
    "green": -10,
@@ -73,7 +73,7 @@
   "us_pe": {
    "id": "us_pe",
    "label": "S&P 500 本益比",
-   "value": 22.9,
+   "value": 22.3,
    "unit": "倍",
    "light": "yellow",
    "detail": "<18 便宜；>25 偏貴",
@@ -82,7 +82,7 @@
   "vix": {
    "id": "vix",
    "label": "VIX 恐慌指數",
-   "value": 26.4,
+   "value": 33.7,
    "unit": "",
    "light": "green",
    "detail": "≥25 恐慌加碼；<15 市場過度樂觀",
@@ -91,7 +91,7 @@
   "us10y": {
    "id": "us10y",
    "label": "美債 10 年殖利率",
-   "value": 4.9,
+   "value": 4.82,
    "unit": "%",
    "light": "red",
    "detail": "利率越高，股票估值壓力越大",
@@ -100,10 +100,10 @@
   "usdtwd": {
    "id": "usdtwd",
    "label": "美元/台幣",
-   "value": 32.96,
+   "value": 33.252,
    "unit": "",
    "light": "red",
-   "detail": "一年均價 31.80（+3.6%）・台幣強時買美股較划算",
+   "detail": "一年均價 31.81（+4.5%）・台幣強時買美股較划算",
    "source": "Yahoo Finance TWD=X"
   }
  },
@@ -113,14 +113,14 @@
    "name": "台股大盤",
    "ticker": "^TWII",
    "market": "TW",
-   "price": 36811.89,
-   "date": "2026-11-23",
-   "change": 2.16,
+   "price": 38195.43,
+   "date": "2026-11-25",
+   "change": -4.8,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -26.1,
+     "value": -23.3,
      "unit": "%",
      "light": "green",
      "note": "中度加碼區",
@@ -129,31 +129,29 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": -6.7,
+     "value": -3.4,
      "unit": "%",
      "light": "green",
-     "detail": "240MA 39,451.18"
+     "detail": "240MA 39,551.17"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 29.5,
+     "value": 38.3,
      "unit": "",
-     "light": "green",
+     "light": "yellow",
      "detail": "短線參考"
     },
     {
      "id": "kd",
      "label": "KD",
-     "value": 19.8,
+     "value": 30.4,
      "unit": "",
-     "light": "green",
-     "detail": "K 19.8 / D 30.9・短線參考"
+     "light": "yellow",
+     "detail": "K 30.4 / D 30.6・短線參考"
     }
    ],
    "spark": [
-    44732.94,
-    45337.91,
     45557.31,
     46459.16,
     45677.46,
@@ -271,30 +269,32 @@
     40194.91,
     38426.89,
     36033.29,
-    36811.89
+    36811.89,
+    40122.35,
+    38195.43
    ],
    "macro": [
     "ndc",
     "tw_pe",
     "vix"
    ],
-   "score": 4,
-   "light": "green",
-   "verdict": "建議加碼"
+   "score": 2,
+   "light": "yellow",
+   "verdict": "正常定期定額"
   },
   {
    "key": "0050",
    "name": "0050 ETF",
    "ticker": "0050.TW",
    "market": "TW",
-   "price": 87.0,
-   "date": "2026-11-23",
-   "change": 3.02,
+   "price": 90.3,
+   "date": "2026-11-25",
+   "change": -5.64,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -25.3,
+     "value": -22.5,
      "unit": "%",
      "light": "green",
      "note": "中度加碼區",
@@ -303,15 +303,15 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": -4.2,
+     "value": -0.8,
      "unit": "%",
      "light": "green",
-     "detail": "240MA 90.78"
+     "detail": "240MA 91.06"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 31.0,
+     "value": 39.9,
      "unit": "",
      "light": "yellow",
      "detail": "短線參考"
@@ -319,15 +319,13 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 21.5,
+     "value": 33.4,
      "unit": "",
      "light": "yellow",
-     "detail": "K 21.5 / D 33.7・短線參考"
+     "detail": "K 33.4 / D 33.6・短線參考"
     }
    ],
    "spark": [
-    104.86,
-    105.06,
     106.95,
     105.46,
     103.52,
@@ -445,7 +443,9 @@
     94.1,
     90.2,
     84.45,
-    87.0
+    87.0,
+    95.7,
+    90.3
    ],
    "macro": [
     "ndc",
@@ -461,14 +461,14 @@
    "name": "費半 SOX",
    "ticker": "^SOX",
    "market": "US",
-   "price": 8832.5,
-   "date": "2026-11-24",
-   "change": -7.88,
+   "price": 8280.88,
+   "date": "2026-11-25",
+   "change": -6.25,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -39.6,
+     "value": -43.4,
      "unit": "%",
      "light": "green",
      "note": "大幅加碼區",
@@ -477,15 +477,15 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": -14.9,
+     "value": -20.2,
      "unit": "%",
      "light": "green",
-     "detail": "240MA 10,373.81"
+     "detail": "240MA 10,377.43"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 38.0,
+     "value": 34.7,
      "unit": "",
      "light": "yellow",
      "detail": "短線參考"
@@ -493,14 +493,13 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 27.4,
+     "value": 20.1,
      "unit": "",
      "light": "yellow",
-     "detail": "K 27.4 / D 30.7・短線參考"
+     "detail": "K 20.1 / D 27.2・短線參考"
     }
    ],
    "spark": [
-    12220.76,
     12906.69,
     12657.81,
     12206.46,
@@ -619,7 +618,8 @@
     9419.72,
     8408.59,
     9588.05,
-    8832.5
+    8832.5,
+    8280.88
    ],
    "macro": [
     "us_pe",
@@ -636,14 +636,14 @@
    "name": "那斯達克100",
    "ticker": "^NDX",
    "market": "US",
-   "price": 26214.17,
-   "date": "2026-11-24",
-   "change": -1.99,
+   "price": 25214.77,
+   "date": "2026-11-25",
+   "change": -3.81,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -16.0,
+     "value": -19.2,
      "unit": "%",
      "light": "green",
      "note": "小幅加碼區",
@@ -652,15 +652,15 @@
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": -5.2,
+     "value": -8.8,
      "unit": "%",
      "light": "green",
-     "detail": "240MA 27,644.25"
+     "detail": "240MA 27,642.28"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 39.2,
+     "value": 34.6,
      "unit": "",
      "light": "yellow",
      "detail": "短線參考"
@@ -668,14 +668,13 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 30.4,
+     "value": 23.3,
      "unit": "",
      "light": "yellow",
-     "detail": "K 30.4 / D 29.1・短線參考"
+     "detail": "K 23.3 / D 27.1・短線參考"
     }
    ],
    "spark": [
-    28957.6,
     29414.26,
     29084.5,
     28508.03,
@@ -794,7 +793,8 @@
     26517.05,
     25028.98,
     26746.1,
-    26214.17
+    26214.17,
+    25214.77
    ],
    "macro": [
     "us_pe",
@@ -811,31 +811,31 @@
    "name": "標普 SPY",
    "ticker": "SPY",
    "market": "US",
-   "price": 718.78,
-   "date": "2026-11-24",
-   "change": -0.49,
+   "price": 700.59,
+   "date": "2026-11-25",
+   "change": -2.53,
    "items": [
     {
      "id": "drawdown",
      "label": "距高點回撤",
-     "value": -7.7,
+     "value": -10.1,
      "unit": "%",
-     "light": "yellow",
-     "note": "小回檔",
+     "light": "green",
+     "note": "小幅加碼區",
      "detail": "近 3 年高點 779.09"
     },
     {
      "id": "bias240",
      "label": "年線乖離",
-     "value": -0.5,
+     "value": -3.0,
      "unit": "%",
      "light": "green",
-     "detail": "240MA 722.55"
+     "detail": "240MA 722.63"
     },
     {
      "id": "rsi",
      "label": "RSI(14)",
-     "value": 40.5,
+     "value": 35.5,
      "unit": "",
      "light": "yellow",
      "detail": "短線參考"
@@ -843,14 +843,13 @@
     {
      "id": "kd",
      "label": "KD",
-     "value": 29.6,
+     "value": 26.0,
      "unit": "",
      "light": "yellow",
-     "detail": "K 29.6 / D 24.7・短線參考"
+     "detail": "K 26.0 / D 25.1・短線參考"
     }
    ],
    "spark": [
-    733.83,
     735.49,
     733.34,
     721.77,
@@ -969,7 +968,8 @@
     715.87,
     689.81,
     722.29,
-    718.78
+    718.78,
+    700.59
    ],
    "macro": [
     "us_pe",
@@ -977,7 +977,7 @@
     "vix",
     "usdtwd"
    ],
-   "score": 0,
+   "score": 1,
    "light": "yellow",
    "verdict": "正常定期定額"
   }
